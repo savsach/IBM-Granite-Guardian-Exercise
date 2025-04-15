@@ -4,9 +4,13 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
+DEFAULT_RISK_THRESHOLD = 0.6
+NUM_TOP_TOKEN_LOGPROBS = 10 
+MAX_TOKENS_TO_GENERATE = 20    
+
 class GuardianModule():
     def __init__(self):
-        self.nlogprobs = 10
+        self.nlogprobs = NUM_TOP_TOKEN_LOGPROBS
         model_path = "ibm-granite/granite-guardian-3.0-2b"
 
         self.model = AutoModelForCausalLM.from_pretrained(
@@ -32,7 +36,6 @@ class GuardianModule():
         Adapted from https://huggingface.co/ibm-granite/granite-guardian-3.1-2b Quickstart sample
         """   
         label, prob_of_risk = None, None
-
 
         list_index_logprobs_i = [torch.topk(token_i, k=self.nlogprobs, largest=True, sorted=True)
                                 for token_i in list(output.scores)[:-1]]
@@ -86,7 +89,7 @@ class GuardianModule():
                 output = self.model.generate(
                     input_ids,
                     do_sample=False,
-                    max_new_tokens=20,
+                    max_new_tokens=MAX_TOKENS_TO_GENERATE,
                     return_dict_in_generate=True,
                     output_scores=True,
                 )
@@ -113,7 +116,7 @@ gm = GuardianModule()
 
 class RiskRequest(BaseModel):
     text: str
-    threshold: float = 0.6
+    threshold: float = DEFAULT_RISK_THRESHOLD
 
 @app.post("/label")
 def get_label(req: RiskRequest):
