@@ -21,4 +21,7 @@
       Out: Sorry, your prompt cannot be answered as it contains: unethical_behavior
   <br /> <br /> 
 
-   
+## Note:
+I chose not to use vLLM as suggested in the exercise due to limited GPU resources. Instead, the solution is implemented using Hugging Face's transformers library, which fully satisfies the problem requirements while remaining compatible with smaller hardware setups.
+
+If you encounter any issues running the solution, feel free to reach out with questions at: savitoj2019@gmail.com
