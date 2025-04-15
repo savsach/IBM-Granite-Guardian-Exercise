@@ -6,9 +6,6 @@ from pydantic import BaseModel
 
 class GuardianModule():
     def __init__(self):
-        if torch.cuda.is_available():
-            print("Using GPU:", torch.cuda.get_device_name(0))
-
         self.nlogprobs = 10
         model_path = "ibm-granite/granite-guardian-3.0-2b"
 
