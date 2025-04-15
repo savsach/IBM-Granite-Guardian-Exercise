@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mitmproxy:
+    build: ./mitmproxy 
+    container_name: mitmproxy_service
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]  
+
+  guardian-api:
+    build: ./guardian_api
+    container_name: guardian-api
+    ports:
+      - "8000:8000" 
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface           
+
+  nginx:
+    image: nginx
+    container_name: nginx_ssl_test
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx_files/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx_files/certs:/etc/nginx/certs:ro
+    depends_on:
+      - mitmproxy  
