@@ -4,16 +4,9 @@ services:
   mitmproxy:
     build: ./mitmproxy 
     container_name: mitmproxy_service
-    volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface
     ports:
       - "8080:8080"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]  
-
+   
   guardian-api:
     build: ./guardian_api
     container_name: guardian-api

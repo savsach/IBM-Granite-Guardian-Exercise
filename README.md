@@ -5,6 +5,9 @@
 1) Create an SSL key if you do not have one. You can use OpenSSL for doing so
    ```openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 365 ```
    Then put it in `nginx_files/certs`.
+   Then export these environment variables: 
+   ```export SSL_CERT_FILE=path/to/cert/file```
+   ```export REQUESTS_CA_BUNDLE=path/to/cert/file```
 2) (Optional) Download the models locally, so you can mount them in the docker instance. Otherwise, wait for the `Application startup complete.` directive before sending prompts. This can take some time as the model has 2B+ parameters.
 3) Spin up a docker instance using ``` docker-compose up --build ```. 
 4) Export your OpenAI API key ``` export OPENAI_API_KEY=your_key ```.
