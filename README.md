@@ -8,7 +8,7 @@
 2) (Optional) Download the models locally, so you can mount them in the docker instance. Otherwise, wait for the `Application startup complete.` directive before sending prompts. This can take some time as the model has 2B+ parameters.
 3) Spin up a docker instance using ``` docker-compose up --build ```. 
 4) Export your OpenAI API key ``` export OPENAI_API_KEY=your_key ```.
-5) Send prompts using the `chat.py` script. Some examples are as follows:
+5) Run ```pip install openai ``` and send prompts using the `chat.py` script. Some examples are as follows:
    
       ``` python chat.py "Hello, how are you"  ```<br /> 
       Out: Hello! I'm just a computer program, so I don't have feelings, but I'm here and ready to help you. How can I assist you today?
