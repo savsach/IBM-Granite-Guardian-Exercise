@@ -3,6 +3,7 @@ import json
 import requests
 
 FASTAPI_URL = "http://guardian-api:8000/label"
+REQUEST_TIMEOUT_SEC = 5
 
 def request(flow: http.HTTPFlow):
     body = flow.request.get_text()
@@ -15,7 +16,7 @@ def request(flow: http.HTTPFlow):
                 "threshold": 0.6
             }
             try:
-                res = requests.post(FASTAPI_URL, json=payload, timeout=5)
+                res = requests.post(FASTAPI_URL, json=payload, timeout=REQUEST_TIMEOUT_SEC)
                 if res.status_code == 200:
                     label = res.json().get("label")
                     if label is not None:
